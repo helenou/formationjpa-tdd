@@ -3,6 +3,7 @@ package fr.dawan.formationjpa;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import org.junit.After;
 import org.junit.Before;
@@ -39,12 +40,19 @@ public class TestFormationDAO {
 	}
 	
 	@After
-	public void cleanUp() {
-		System.out.println("Nettoyage après chaque test");
-		GenericDAO.delete(Formation.class, fid);
+	public void after() {
+		GenericDAO.deleteAll(Formation.class);		
 	}
 	
-	
+	@Test
+	public void deleteTest() {
+		System.out.println("Nettoyage après chaque test");
+		GenericDAO.delete(Formation.class, fid);
+		
+		Formation f= GenericDAO.findById(Formation.class, fid);
+		assertNull(f);
+	}
+
 	@Test
 	public void findByIdTest() {
 		Formation f= GenericDAO.findById(Formation.class, fid);  
